@@ -1,0 +1,1184 @@
+/* Basic Reset & Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Makes width/height include padding and border */
+}
+
+/* Variables for easier management */
+:root {
+    --primary-color: #007185; /* Example Teal */
+    --secondary-color: #f0c14b; /* Example Yellow */
+    --accent-color: #e77600; /* Example Orange */
+    --text-color: #111;
+    --background-color: #eaeded; /* Light grey background */
+    --white: #fff;
+    --border-color: #ddd;
+    --curve-radius: 8px; /* Define curve radius once */
+    --golden-ratio: 1.618;
+    --sidebar-width-percentage: calc(100% / var(--golden-ratio) / var(--golden-ratio)); /* Approx 38.2% */
+    --main-content-width-percentage: calc(100% - var(--sidebar-width-percentage)); /* Approx 61.8% */
+    --layout-gap: 20px;
+}
+
+body {
+    font-family: 'Amazon Ember', Arial, sans-serif; /* Use a similar font stack */
+    line-height: 1.5;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    /* Add min-height to ensure footer stays down on short pages */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Layout --- */
+.page-container {
+    display: flex;
+    flex-grow: 1; /* Allows container to fill space for footer positioning */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1400px; /* Max width of the content area */
+    margin: 20px auto; /* Center the container */
+    padding: 0 var(--layout-gap);
+    gap: var(--layout-gap); /* Space between flex items (main/sidebar) */
+}
+
+.content-area {
+    /* flex-grow, flex-shrink, flex-basis */
+    /* Using calc to account for the gap */
+    flex: 1 1 calc(var(--main-content-width-percentage) - (var(--layout-gap) / 2));
+    background-color: var(--white); /* Give main content a background */
+    padding: 20px;
+    border-radius: var(--curve-radius); /* Optional: curve the container */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    /* Ensure content area can shrink if needed */
+    min-width: 0;
+}
+
+.sidebar {
+    /* Using calc to account for the gap */
+    flex: 1 1 calc(var(--sidebar-width-percentage) - (var(--layout-gap) / 2));
+    background-color: var(--white); /* Give sidebar a background */
+    padding: 20px;
+    border-radius: var(--curve-radius); /* Optional: curve the container */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    /* Prevent sidebar from shrinking too much */
+    min-width: 250px; /* Adjust as needed */
+}
+
+/* --- Header Styles --- */
+.site-header {
+    background-color: #131921; /* Amazon dark blue/black */
+    padding: 10px var(--layout-gap);
+    color: var(--white);
+    /* Ensure header doesn't shrink */
+    flex-shrink: 0;
+    position: relative; /* Needed for absolute positioning of mobile menu */
+    z-index: 100; /* Ensure header is above page content */
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 10px 20px; /* Add gap for wrapped items */
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0; /* Prevent logo shrinking */
+}
+/* Style for logo link */
+.logo a {
+    color: inherit; /* Inherit color (white from header) */
+    text-decoration: none;
+}
+
+/* Wrapper for nav items that will be part of mobile menu */
+.nav-items-wrapper {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allow wrapper to take space */
+    gap: inherit; /* Inherit gap from main-nav */
+    min-width: 0; /* Allow shrinking */
+}
+
+.search-bar {
+    display: flex;
+    flex-grow: 1; /* Allow search bar to take available space */
+    /* Set min-width to prevent excessive shrinking */
+    min-width: 200px;
+    /* Removed fixed margin, rely on flex gap */
+}
+
+.search-bar input[type="search"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    /* Apply curved edges ONLY on the left side */
+    border-top-left-radius: var(--curve-radius);
+    border-bottom-left-radius: var(--curve-radius);
+    font-size: 1rem;
+    min-width: 100px; /* Prevent input becoming too small */
+}
+
+.search-bar .search-btn {
+    /* Apply curved edges ONLY on the right side */
+    border-top-right-radius: var(--curve-radius);
+    border-bottom-right-radius: var(--curve-radius);
+    border-top-left-radius: 0; /* Override default button curve */
+    border-bottom-left-radius: 0; /* Override default button curve */
+    /* background-color and border are now inherited from .btn */
+    padding: 0 15px; /* Adjust padding */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.user-actions {
+    display: flex; /* Ensure links stay in a row */
+    align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.user-actions .nav-link {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 15px;
+    padding: 8px;
+    border: 1px solid transparent; /* Add border for hover effect */
+    border-radius: calc(var(--curve-radius) / 2); /* Subtle curve */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.user-actions .nav-link:hover {
+    border-color: var(--white);
+}
+
+/* --- Footer Styles --- */
+.site-footer {
+    background-color: #232f3e; /* Amazon footer color */
+    color: var(--white);
+    text-align: center;
+    padding: 20px var(--layout-gap);
+    margin-top: 30px; /* Keep space above footer */
+    /* Ensure footer doesn't shrink */
+    flex-shrink: 0;
+}
+
+/* --- General Button Styles (Now Gold and Curved) --- */
+.btn {
+    display: inline-block; /* Allows padding and margin */
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    /* Prevent text selection on rapid clicks */
+    -webkit-user-select: none; /* Safari 3+ */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE 10+ */
+    user-select: none;         /* Standard */
+
+    /* Amazon Gold Styles */
+    background-color: #FF9900; /* Amazon gold */
+    color: #111; /* Dark text for contrast */
+    border: 1px solid #a88734; /* Optional: Add a border similar to Amazon's */
+    border-radius: var(--curve-radius); /* Apply the curve radius variable */
+}
+
+/* Hover effect for the button */
+.btn:hover:not(:disabled):not(.disabled) { /* Check for .disabled class too */
+  background-color: #f08800; /* Slightly darker gold on hover */
+  border-color: #9c7e31; /* Darker border on hover */
+  transform: scale(1.05);
+}
+
+/* Style for disabled buttons AND links styled as buttons */
+.btn:disabled, a.btn.disabled {
+    background-color: #f0c14b; /* Lighter, less saturated gold */
+    border-color: #a88734;
+    color: #888; /* Greyed out text */
+    cursor: not-allowed;
+    opacity: 0.7; /* Add opacity for disabled state */
+    pointer-events: none; /* More robust way to disable clicks */
+}
+
+/* Remove conflicting styles from specific button classes */
+.btn-primary {
+    /* Inherits gold style from .btn */
+    /* Remove previous background/color/border */
+}
+
+.btn-secondary {
+    /* Inherits gold style from .btn */
+    /* Remove previous background/color/border */
+    /* If you WANT a secondary style, re-add specific background/color/border here */
+    /* Example: Keep secondary grey */
+    /* background-color: #f0f2f2; */
+    /* color: var(--text-color); */
+    /* border: 1px solid #adb1b8 #a2a6ac #8d9096; */
+}
+/* Hover for secondary if keeping it */
+/* .btn-secondary:hover:not(:disabled):not(.disabled) { */
+    /* background-color: #e3e6e6; */
+/* } */
+
+
+/* --- Form Elements --- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"], /* Added number type */
+input[type="tel"], /* Added tel type */
+textarea,
+select {
+    width: 100%; /* Make inputs fill their container */
+    padding: 10px;
+    margin-bottom: 10px; /* Spacing below form elements */
+    border: 1px solid #a6a6a6; /* Grey border */
+    border-top-color: #949494;
+    border-radius: var(--curve-radius); /* Apply the curve */
+    font-size: 1rem;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(0,0,0,.07) inset; /* Subtle inner shadow */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus, /* Added number type */
+input[type="tel"]:focus, /* Added tel type */
+textarea:focus,
+select:focus {
+    outline: none; /* Remove default browser outline */
+    border-color: var(--accent-color); /* Highlight with orange */
+    box-shadow: 0 0 0 2px #c8f3fa, 0 1px 2px rgba(0,0,0,.15) inset; /* Amazon-like focus glow */
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+/* --- Guest Checkout Section --- */
+.guest-checkout-section {
+    background-color: #f8f8f8; /* Light gray background */
+    border: 1px solid #ddd; /* Subtle border */
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center the content */
+}
+
+.guest-checkout-section h2 {
+    color: #333; /* Dark gray heading */
+    margin-bottom: 10px;
+}
+
+.guest-checkout-section p {
+    color: #666; /* Medium gray text */
+    margin-bottom: 20px;
+}
+
+/* Guest Options Container */
+.guest-options {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 15px; /* Space between buttons */
+    flex-wrap: wrap;
+}
+
+/* --- Product Grid & Card Styles --- */
+.product-grid {
+    display: grid;
+    /* Create responsive columns: min 250px wide, max 1fr */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--layout-gap);
+    margin-top: 20px;
+}
+/* Style for no results message in grid */
+.no-results-message {
+    grid-column: 1 / -1; /* Span all columns */
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+    font-style: italic;
+}
+
+.product-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--curve-radius); /* Curve the card itself */
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: space-between; /* Push button to bottom */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Style for the link wrapping image/title */
+.product-link {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
+    display: block; /* Make the link take up block space */
+    margin-bottom: 10px; /* Add some space below the link area */
+}
+.product-link:hover .product-title {
+    color: var(--accent-color); /* Change title color on hover */
+}
+
+.product-image {
+    max-width: 100%;
+    height: 200px; /* Fixed height for consistency */
+    object-fit: contain; /* Scale image nicely within bounds */
+    margin-bottom: 10px; /* Reduced margin as link now has margin */
+}
+
+.product-title {
+    font-size: 1rem;
+    color: var(--primary-color); /* Use link color */
+    /* Removed margin-bottom, handled by .product-link */
+    /* Limit title to 2 lines with ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 3em; /* Ensure space for 2 lines (adjust line-height if needed) */
+    line-height: 1.5; /* Match body line-height */
+}
+
+.product-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #B12704; /* Amazon price color */
+    margin-bottom: 15px;
+}
+
+/* Specific styles for add-to-cart button context */
+.add-to-cart-btn {
+    /* Inherits gold style and curve from .btn */
+    width: 100%; /* Make button full width within card padding */
+    margin-top: auto; /* Push button to the bottom */
+}
+
+
+/* --- Sidebar Styles --- */
+.sidebar h3 {
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.category-list {
+    list-style: none; /* Remove bullet points */
+    margin-bottom: 20px;
+}
+
+.category-list li {
+    margin-bottom: 8px;
+}
+
+.category-list a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.category-list a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.ad-placeholder {
+    background-color: #f8f8f8;
+    border: 1px dashed var(--border-color);
+    padding: 15px;
+    text-align: center;
+    border-radius: var(--curve-radius);
+}
+
+.ad-placeholder h4 {
+    margin-bottom: 5px;
+}
+
+.ad-placeholder p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+/* --- Cart Page Styles --- */
+.cart-item {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+.cart-item:last-child {
+    border-bottom: none; /* Remove border from last item */
+    margin-bottom: 0;
+}
+.cart-item-image {
+    flex-shrink: 0; /* Prevent image container from shrinking */
+}
+.cart-item-image img {
+    max-width: 80px;
+    height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--curve-radius);
+    display: block; /* Remove extra space below image */
+}
+.cart-item-details {
+    flex-grow: 1;
+    min-width: 150px; /* Prevent details from becoming too narrow */
+}
+.cart-item-details h3 {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0; /* Prevent actions container from shrinking */
+    margin-left: auto; /* Push actions to the right on wider screens */
+}
+.cart-item-actions label {
+    font-size: 0.9rem;
+}
+.cart-item-actions input[type="number"].item-quantity {
+    width: 60px;
+    text-align: center;
+    padding: 5px; /* Smaller padding */
+    margin-bottom: 0; /* Override default input margin */
+}
+.cart-item-actions .btn-remove-item {
+    padding: 5px 10px; /* Smaller remove button */
+    font-size: 0.85rem;
+    /* Inherits gold style and curve from .btn */
+}
+
+.cart-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid var(--border-color);
+    border-radius: var(--curve-radius);
+    text-align: right;
+    min-height: 150px; /* Adjust based on your content height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.cart-summary h2 {
+    margin-bottom: 15px;
+    text-align: left;
+    font-size: 1.4rem;
+}
+.cart-summary p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.cart-summary .btn-checkout { /* Target link styled as button */
+    padding: 12px 25px; /* Larger checkout button */
+    display: inline-block; /* Ensure padding applies correctly */
+    /* Inherits gold style and curve from .btn */
+}
+
+/* Add this new rule */
+.checkout-options {
+    display: flex;          /* Use flexbox */
+    gap: 15px;              /* Space BETWEEN the buttons */
+    margin-top: 15px;       /* Space above the buttons */
+    flex-wrap: wrap;        /* Allow wrapping */
+    min-height: 50px;
+}
+
+/* --- MAXIMUM SPECIFICITY RULE --- */
+/* Target BOTH the link (a.btn) and button (button.btn) DIRECTLY inside #checkout-options */
+#cart-summary-section #checkout-options > a.btn,
+#cart-summary-section #checkout-options > button.btn {
+    /* Flex properties for width */
+    flex-grow: 1;
+    flex-basis: 0;
+
+    /* Display and Internal Alignment */
+    display: inline-flex !important; /* Force inline-flex */
+    align-items: center !important;    /* Force vertical center */
+    justify-content: center !important;/* Force horizontal center */
+    vertical-align: middle !important; /* Reset vertical-align */
+
+    /* --- FORCE Explicit Style Consistency --- */
+    padding: 10px 20px !important;     /* Force Padding */
+    font-size: 1rem !important;        /* Force Font Size */
+    font-weight: bold !important;      /* Force Font Weight */
+    line-height: 1.2 !important;       /* FORCE Consistent Line Height */
+    border: 1px solid #a88734 !important; /* Force Border */
+    border-radius: var(--curve-radius) !important; /* Force Border Radius */
+    box-sizing: border-box !important; /* Force Box Sizing */
+    text-decoration: none !important;  /* Force No Underline */
+    color: #111 !important;            /* Force Text Color */
+    background-color: #FF9900 !important; /* Force Background */
+    cursor: pointer !important;        /* Force Cursor */
+    text-align: center !important;     /* Force Text Align */
+    margin: 0 !important;              /* Reset margin */
+    height: auto !important;           /* Let height be determined by content + padding */
+    min-height: 0 !important;          /* Reset min-height */
+    /* --- End of FORCE Consistency --- */
+
+    /* min-width: 120px; /* Optional: Minimum width before wrapping */
+}
+
+.empty-cart-message {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* --- Product Detail Page Styles --- */
+.breadcrumbs {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+}
+.breadcrumbs a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.product-detail-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 30px;
+    margin-top: 20px;
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: var(--curve-radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.product-detail-image {
+    flex: 1 1 300px; /* Allow shrinking but prefer 300px+ */
+    max-width: 400px; /* Max width for image container */
+    margin: 0 auto; /* Center image container when wrapped */
+}
+.product-detail-image img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--curve-radius);
+    display: block; /* Remove extra space */
+}
+.product-detail-info {
+    flex: 2 1 400px; /* Allow growing more, prefer 400px+ */
+    min-width: 280px; /* Prevent info section becoming too narrow */
+}
+.product-detail-info h1 {
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    line-height: 1.3;
+}
+.product-detail-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #B12704; /* Amazon price color */
+    margin-bottom: 20px;
+}
+.product-detail-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+.product-detail-specs {
+    margin-bottom: 25px;
+}
+.product-detail-specs h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.product-detail-specs ul {
+    list-style: disc;
+    margin-left: 20px;
+    line-height: 1.6;
+}
+.product-add-to-cart .btn {
+    padding: 12px 25px; /* Make button slightly larger */
+    font-size: 1.1rem;
+    /* Inherits gold style and curve from .btn */
+}
+
+/* --- Checkout Page Styles --- */
+.checkout-container {
+    /* Adjust layout for checkout page if needed */
+    /* Example: Maybe remove sidebar gap if summary is inside main */
+}
+.checkout-main {
+    /* Example: Take full width if sidebar is removed/different */
+    /* flex-basis: 100%; */
+}
+
+.checkout-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+.checkout-section:last-of-type {
+    border-bottom: none;
+}
+
+.checkout-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+/* Form Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 15px 20px;
+}
+
+.form-group {
+    margin-bottom: 5px; /* Reduced margin as grid gap handles spacing */
+}
+
+/* Style for splitting state/zip */
+.form-group-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 15px;
+}
+/* Ensure split group spans full width in the main grid if needed */
+@media (min-width: 576px) { /* Adjust breakpoint as needed */
+    .form-group-split {
+        grid-column: 1 / -1; /* Span all columns */
+    }
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Checkbox styling */
+.form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px; /* More space after checkbox */
+}
+.form-group.checkbox-group input[type="checkbox"] {
+    width: auto; /* Override default width */
+    margin-bottom: 0;
+    flex-shrink: 0; /* Prevent checkbox shrinking */
+}
+.form-group.checkbox-group label {
+    margin-bottom: 0; /* Override default label margin */
+    font-weight: normal;
+}
+
+/* Radio button styling */
+.checkout-section .form-group label input[type="radio"] {
+     width: auto;
+     margin-right: 8px;
+     flex-shrink: 0; /* Prevent radio shrinking */
+}
+/* Ensure radio label doesn't prevent click */
+.checkout-section .form-group label {
+    font-weight: normal; /* Normal weight for radio labels */
+    display: flex; /* Align radio and text */
+    align-items: center;
+    cursor: pointer; /* Indicate label is clickable */
+}
+
+
+/* Error Message Styling */
+.error-message {
+    color: #B12704; /* Red error color */
+    font-size: 0.85rem;
+    margin-top: 4px;
+    min-height: 1.2em; /* Reserve space even when empty */
+}
+.form-group input.invalid,
+.form-group select.invalid {
+    border-color: #B12704;
+    box-shadow: 0 0 0 2px rgba(177, 39, 4, 0.2); /* Red glow */
+}
+
+/* Checkout Actions */
+.checkout-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+.btn-place-order {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    /* Inherits gold style and curve from .btn */
+}
+
+/* Checkout Summary Sidebar */
+.checkout-summary {
+    /* Use sidebar styles defined earlier */
+    background-color: #f8f8f8; /* Slightly different background */
+    border-left: 1px solid var(--border-color);
+    padding: 20px;
+    /* Ensure it doesn't grow beyond its basis */
+    flex-grow: 0;
+    /* Make sure it uses the sidebar flex basis */
+    flex-basis: calc(var(--sidebar-width-percentage) - (var(--layout-gap) / 2));
+    align-self: flex-start; /* Align to top */
+    min-height: 250px;
+}
+.checkout-summary h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+#checkout-order-summary {
+    margin-bottom: 20px;
+    /* Add styles for summary items later */
+}
+#checkout-order-summary .summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+#checkout-order-summary .summary-item-name {
+    margin-right: 10px; /* Space between name and price */
+}
+#checkout-order-summary .summary-item-price {
+    white-space: nowrap; /* Prevent price wrapping */
+}
+
+.summary-totals {
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+.summary-totals p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+.summary-totals p strong {
+    font-size: 1.2rem;
+}
+
+/* --- Account Page Styles --- */ /* <<< NEW SECTION HEADING */
+
+.order-history-section { /* <<< START OF YOUR SNIPPET */
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.order-history-section h2 {
+    margin-bottom: 20px;
+}
+
+#order-history-container .loading-message,
+#order-history-container .no-orders-message,
+#order-history-container .error-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.order-card {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: var(--curve-radius);
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.order-header span {
+    white-space: nowrap;
+}
+
+.order-header .order-status {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background-color: #e0e0e0; /* Default status background */
+    color: #333;
+}
+/* Add specific status colors if desired */
+.order-header .order-status.status-pending { background-color: #f0c14b; color: #111; }
+.order-header .order-status.status-shipped { background-color: #007185; color: var(--white); }
+.order-header .order-status.status-delivered { background-color: #5cb85c; color: var(--white); }
+.order-header .order-status.status-cancelled { background-color: #d9534f; color: var(--white); }
+/* Add rule for returned status if needed */
+.order-header .order-status.status-returned { background-color: #777; color: var(--white); }
+
+
+.order-items-list {
+    margin-bottom: 15px;
+}
+
+.order-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.order-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.order-item-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.order-item-details {
+    flex-grow: 1;
+    font-size: 0.9rem;
+}
+.order-item-details p {
+    margin: 2px 0;
+    color: #555;
+}
+.order-item-details .item-name {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.order-actions { /* Container for potential future actions like 'Buy Again' */
+    margin-top: 10px;
+    text-align: right;
+    /* Add styles for buttons inside if needed, like gap */
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+/* Ensure btn-small styles are defined if used by generateOrderActionButtons */
+.btn-small {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+}
+
+/* --- Utility & Component Styles --- */ /* Added section heading */
+
+/* Utility class for hiding elements */
+.hidden {
+    display: none !important; /* Use !important if needed to override other display rules */
+}
+
+/* Style to make the logout button look like other header links */
+.btn-link-style {
+    background: none;
+    border: none;
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+    color: inherit; /* Inherit text color (white from header) */
+    font: inherit; /* Inherit font settings */
+    cursor: pointer;
+    text-decoration: none; /* Looks like a link */
+    vertical-align: baseline; /* Align with other links */
+
+    /* Match padding/border of other nav-links for hover consistency */
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: calc(var(--curve-radius) / 2);
+    white-space: nowrap;
+}
+.user-actions .btn-link-style { /* Specificity for header context */
+     margin-left: 15px; /* Match margin of other nav-links */
+}
+
+.btn-link-style:hover {
+    border-color: var(--white); /* Match hover of other nav-links */
+}
+
+/* --- End Utility & Component Styles --- */
+
+
+/* --- Mobile Navigation Styles --- */
+
+.mobile-menu-toggle {
+    display: none; /* Hidden by default on larger screens */
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's above other header content if needed */
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--white);
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Styling for the open (X) state */
+.mobile-menu-toggle.is-active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.mobile-menu-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+}
+.mobile-menu-toggle.is-active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Optional: Prevent scrolling when mobile menu is open */
+body.mobile-nav-open {
+    overflow: hidden;
+}
+
+
+/* --- Responsive Design --- */
+
+/* Tablet View (e.g., screens less than 992px) */
+@media (max-width: 991.98px) {
+    .page-container {
+        flex-direction: column; /* Stack main content and sidebar */
+    }
+
+    /* Reset flex-basis so they take full width */
+    .content-area,
+    .sidebar { /* Apply to general sidebar */
+        flex-basis: auto;
+        width: 100%; /* Ensure they take full width when stacked */
+        min-width: 0; /* Allow shrinking */
+    }
+
+    /* Adjust header layout for potential wrapping */
+    .main-nav {
+        /* Rely on flex-wrap and gap */
+    }
+
+    /* Search bar might wrap below logo/actions */
+    .search-bar {
+        /* order: 3; /* Optional: force below if needed */
+        /* width: 100%; /* Optional: force full width if needed */
+        /* margin-top: 10px; /* Optional: add space if wrapped */
+    }
+
+    /* Checkout specific adjustments for tablet */
+    .checkout-container {
+        flex-direction: column-reverse; /* Show summary above form on mobile */
+    }
+    .checkout-summary { /* Apply to checkout sidebar */
+        border-left: none;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: var(--layout-gap);
+        flex-basis: auto; /* Override specific basis */
+        width: 100%;
+    }
+}
+
+/* Mobile View (e.g., screens less than 768px) */
+@media (max-width: 767.98px) {
+    body {
+        font-size: 14px; /* Slightly smaller font on mobile */
+    }
+
+    .page-container {
+        margin-top: 10px;
+        padding: 0 10px; /* Reduce side padding */
+        gap: 15px; /* Reduce gap */
+    }
+
+    .content-area, .sidebar { /* Apply to general sidebar */
+        padding: 15px; /* Reduce padding inside containers */
+    }
+
+    .product-grid {
+        /* Adjust columns for smaller screens if needed */
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Smaller min size */
+        gap: 15px;
+    }
+
+    .product-image {
+        height: 150px; /* Smaller images on mobile */
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* --- Mobile Nav Activation --- */
+    .mobile-menu-toggle {
+        display: block; /* Show hamburger on mobile */
+        order: 3; /* Place it after logo */
+        margin-left: auto; /* Push it to the right */
+    }
+
+    .nav-items-wrapper {
+        display: none; /* Hide the wrapper by default on mobile */
+        position: absolute;
+        top: 100%; /* Position below the header */
+        left: 0;
+        right: 0;
+        background-color: #232f3e; /* Use a slightly different background */
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 1000; /* Ensure menu is above page content */
+        border-top: 1px solid #4a5f70;
+        flex-direction: column; /* Stack items vertically */
+        align-items: stretch; /* Make items take full width */
+        gap: 15px;
+    }
+
+    .nav-items-wrapper.is-open {
+        display: flex; /* Show the menu when active */
+    }
+
+    /* Adjustments for items inside the mobile menu */
+    .nav-items-wrapper .search-bar {
+        width: 100%;
+        margin: 0; /* Reset margin */
+        order: 1; /* Search first */
+    }
+    .nav-items-wrapper .user-actions {
+        width: 100%;
+        margin: 0; /* Reset margin */
+        order: 2; /* Actions second */
+        display: flex;
+        flex-direction: column; /* Stack links vertically */
+        align-items: stretch; /* Stretch links */
+        gap: 10px;
+    }
+     .nav-items-wrapper .user-actions .nav-link {
+        margin-left: 0; /* Reset margin */
+        text-align: center;
+        padding: 10px;
+        border: 1px solid transparent; /* Keep border for consistency */
+        border-radius: var(--curve-radius);
+     }
+     .nav-items-wrapper .user-actions .nav-link:hover {
+        border-color: var(--white);
+        background-color: rgba(255, 255, 255, 0.1);
+     }
+     /* --- End Mobile Nav Activation --- */
+
+
+    /* Cart page adjustments */
+    .cart-item-actions {
+        margin-left: 0; /* Don't push actions right on mobile */
+        width: 100%; /* Allow actions to take full width if needed */
+        justify-content: space-between; /* Space out qty and remove */
+    }
+
+    /* Product detail page adjustments */
+    .product-detail-info h1 {
+        font-size: 1.5rem;
+    }
+    .product-detail-price {
+        font-size: 1.4rem;
+    }
+    .product-add-to-cart .btn {
+        width: 100%; /* Make button full width */
+    }
+
+    /* Checkout specific adjustments for mobile */
+    .checkout-summary { /* Apply to checkout sidebar */
+         padding: 15px;
+    }
+}
+
+/* Smaller Mobile View (e.g., screens less than 576px) */
+@media (max-width: 575.98px) {
+    .product-grid {
+        /* Switch to single column or two columns */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        /* Or grid-template-columns: 1fr; */
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .main-nav {
+        /* Adjust justification if needed when hamburger is present */
+        /* justify-content: space-between; */
+    }
+
+    .user-actions .nav-link {
+        /* Styles might be overridden by .nav-items-wrapper rules */
+        /* margin-left: 10px; */
+        /* padding: 5px; */
+    }
+
+    /* Further reduce padding/font sizes if needed */
+    .content-area, .sidebar { /* Apply to general sidebar */
+        padding: 10px;
+    }
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .cart-item-details h3 {
+        font-size: 1rem;
+    }
+
+    /* Checkout specific adjustments for small mobile */
+    .form-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+     .form-group-split {
+        grid-template-columns: 1fr; /* Stack state/zip */
+    }
+    .checkout-actions {
+        text-align: center;
+    }
+    .btn-place-order {
+        width: 100%;
+    }
+     .checkout-summary { /* Apply to checkout sidebar */
+         padding: 10px;
+    }
+     .checkout-summary h2 {
+        font-size: 1.2rem;
+     }
+     .summary-totals p strong {
+        font-size: 1.1rem;
+     }
+}
+

@@ -1,0 +1,184 @@
+<!-- admin/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Management</title> <!-- Updated Title -->
+    <!-- Link to your main stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Basic Admin Styles */
+        body { background-color: #f0f0f0; } /* Different background */
+        .admin-container { max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
+        .admin-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; } /* Style for sections */
+        .admin-section:last-child { border-bottom: none; margin-bottom: 0; }
+        .admin-section h2 { margin-bottom: 15px; color: var(--primary-color); }
+        .admin-filters { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+        .admin-filters label { font-weight: bold; margin-right: 5px; }
+        .admin-orders-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .admin-orders-table th, .admin-orders-table td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; vertical-align: middle; }
+        .admin-orders-table th { background-color: #f2f2f2; }
+        .admin-orders-table select { padding: 4px; width: auto; margin-bottom: 0; }
+        .admin-orders-table input[type="text"] { padding: 4px; width: 150px; margin-bottom: 0; }
+        .admin-orders-table button { margin-left: 5px; }
+        .admin-pagination { text-align: center; margin-top: 20px; }
+        .admin-pagination button { margin: 0 5px; }
+        .loading-message, .error-message, .no-orders-message, .no-products-message { text-align: center; padding: 20px; font-style: italic; color: #555; }
+        .error-message { color: #B12704; font-weight: bold; } /* Make errors stand out */
+        .hidden { display: none; } /* Utility class */
+        .btn-small { padding: 4px 8px; font-size: 0.8rem; }
+
+        /* Styles for Product Management */
+        #new-product-form .form-group { margin-bottom: 15px; }
+        #new-product-form label { display: block; margin-bottom: 5px; font-weight: bold; }
+        #new-product-form input[type="text"],
+        #new-product-form input[type="number"],
+        #new-product-form textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        #new-product-form textarea { min-height: 80px; }
+
+        #admin-product-list ul { list-style: none; padding: 0; }
+        #admin-product-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #eee; }
+        #admin-product-list li:last-child { border-bottom: none; }
+        #admin-product-list span { flex-grow: 1; margin-right: 15px; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1> <!-- More General Title -->
+            <button id="admin-logout-button" class="btn btn-secondary btn-small">Logout</button>
+        </div>
+
+        <!-- Section for Product Management -->
+        <section class="admin-section product-management">
+            <h2>Product Management</h2>
+
+            <!-- Form to Create New Product -->
+            <div id="create-product-section" style="margin-bottom: 25px;">
+                <h3>Create New Product</h3>
+                <form id="new-product-form">
+                    <div class="form-group">
+                        <label for="product-name">Name:</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description:</label>
+                        <textarea id="product-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Price:</label>
+                        <input type="number" id="product-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image-url">Image URL:</label>
+                        <input type="text" id="product-image-url" placeholder="e.g., /images/new-product.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category:</label>
+                        <input type="text" id="product-category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock-quantity">Stock Quantity:</label>
+                        <input type="number" id="product-stock-quantity" min="0" required>
+                    </div>
+                    <!-- Error message display area -->
+                    <div id="new-product-error-message" class="error-message hidden"></div>
+                    <button type="submit" class="btn btn-primary">Create Product</button>
+                </form>
+            </div>
+
+            <!-- List of Existing Products -->
+            <div id="list-products-section">
+                <h3>Existing Products</h3>
+                <div id="admin-product-list">
+                    <p class="loading-message">Loading products...</p>
+                    <!-- Product list will be populated here by admin.js -->
+                    <!-- Example structure:
+                    <ul>
+                        <li>
+                            <span>Product Name (ID: 1) - $19.99 - Stock: 50</span>
+                            <button class="btn btn-secondary btn-small btn-edit-product" data-product-id="1">Edit</button>  <! -- Changed -->
+                        </li>
+                        ...
+                    </ul>
+                    -->
+                </div>
+            </div>
+      
+            <!-- NEW: Form to Edit Product (Initially Hidden) -->
+            <div id="edit-product-section" class="admin-section hidden" style="margin-top: 30px;">
+                <h2>Edit Product</h2>
+                <form id="edit-product-form">
+                    <input type="hidden" id="edit-product-id"> <!-- To store the ID of the product being edited -->
+                    <div class="form-group">
+                        <label for="edit-product-name">Name:</label>
+                        <input type="text" id="edit-product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-description">Description:</label>
+                        <textarea id="edit-product-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-price">Price:</label>
+                        <input type="number" id="edit-product-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-image-url">Image URL:</label>
+                        <input type="text" id="edit-product-image-url" placeholder="e.g., /images/product.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-category">Category:</label>
+                        <input type="text" id="edit-product-category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-stock-quantity">Stock Quantity:</label>
+                        <input type="number" id="edit-product-stock-quantity" min="0" required>
+                    </div>
+                    <!-- Error message display area -->
+                    <div id="edit-product-error-message" class="error-message hidden"></div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" id="cancel-edit-button" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+
+        <!-- Section for Order Management -->
+        <section class="admin-section order-management">
+            <h2>Order Management</h2>
+            <div class="admin-filters">
+                <div>
+                    <label for="status-filter">Filter by Status:</label>
+                    <select id="status-filter">
+                        <option value="">All</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Returned">Returned</option>
+                    </select>
+                </div>
+                <!-- Add more filters if needed -->
+            </div>
+
+            <div id="admin-orders-table-container">
+                <p class="loading-message">Loading orders...</p>
+                <!-- Order table will be generated here -->
+            </div>
+
+            <div class="admin-pagination" id="admin-pagination-controls">
+                <!-- Pagination buttons will be added here -->
+            </div>
+        </section>
+
+    </div> <!-- End admin-container -->
+
+    <!-- Load utilities (Ensure path is correct relative to admin.html) -->
+    <script type="module" src="../js/cart-utils.js"></script>
+    <!-- Load admin-specific script -->
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
+
+

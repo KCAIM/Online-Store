@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - My Awesome Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Specific Checkout Styles are now in style.css -->
+</head>
+<body>
+
+    <header class="site-header">
+        <!-- Updated navigation structure for hamburger menu -->
+        <nav class="main-nav">
+            <!-- Link for the logo, removed inline style -->
+            <div class="logo"><a href="index.html">MyStore</a></div>
+
+            <!-- Hamburger Button (Initially hidden on desktop) -->
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Wrapper for items to be hidden/shown in mobile menu -->
+            <!-- Minimal header for checkout - only user actions included -->
+            <div class="nav-items-wrapper" id="mobile-menu">
+                 <!-- Search bar is intentionally omitted on checkout page -->
+                <!-- Update user actions block -->
+                <div class="user-actions">
+                     <a href="account.html" class="nav-link">Account</a> <!-- Linked to account.html -->
+                    <a href="cart.html" class="nav-link">
+                        Cart <span id="cart-item-count">0</span>
+                    </a>
+                </div>
+                <!-- End updated user actions block -->
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container checkout-container"> <!-- Added checkout-container class -->
+        <main class="content-area checkout-main"> <!-- Added checkout-main class -->
+            <h1>Checkout</h1>
+
+            <form id="checkout-form" novalidate> <!-- novalidate prevents default browser validation -->
+
+                <section class="checkout-section">
+                    <h2>Shipping Address</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="shipping-name">Full Name</label>
+                            <input type="text" id="shipping-name" name="shipping_name" required>
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-address1">Address Line 1</label>
+                            <input type="text" id="shipping-address1" name="shipping_address1" required>
+                             <div class="error-message"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-address2">Address Line 2 (Optional)</label>
+                            <input type="text" id="shipping-address2" name="shipping_address2">
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-city">City</label>
+                            <input type="text" id="shipping-city" name="shipping_city" required>
+                             <div class="error-message"></div>
+                        </div>
+                        <div class="form-group form-group-split"> <!-- For State/Zip -->
+                            <div>
+                                <label for="shipping-state">State/Province</label>
+                                <input type="text" id="shipping-state" name="shipping_state" required>
+                                 <div class="error-message"></div>
+                            </div>
+                            <div>
+                                <label for="shipping-zip">ZIP/Postal Code</label>
+                                <input type="text" id="shipping-zip" name="shipping_zip" required pattern="\d{5}(-\d{4})?"> <!-- Basic US Zip pattern -->
+                                 <div class="error-message"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-country">Country</label>
+                            <select id="shipping-country" name="shipping_country" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <!-- Add more countries as needed -->
+                            </select>
+                             <div class="error-message"></div>
+                        </div>
+                         <div class="form-group">
+                            <label for="shipping-phone">Phone Number (Optional)</label>
+                            <input type="tel" id="shipping-phone" name="shipping_phone">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2>Billing Address</h2>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="same-as-shipping" name="same_as_shipping" checked>
+                        <label for="same-as-shipping">Same as shipping address</label>
+                    </div>
+
+                    <!-- Removed inline style, added 'hidden' class -->
+                    <div id="billing-address-form" class="form-grid hidden">
+                         <div class="form-group">
+                            <label for="billing-name">Full Name</label>
+                            <input type="text" id="billing-name" name="billing_name">
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-address1">Address Line 1</label>
+                            <input type="text" id="billing-address1" name="billing_address1">
+                             <div class="error-message"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-address2">Address Line 2 (Optional)</label>
+                            <input type="text" id="billing-address2" name="billing_address2">
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-city">City</label>
+                            <input type="text" id="billing-city" name="billing_city">
+                             <div class="error-message"></div>
+                        </div>
+                        <div class="form-group form-group-split">
+                            <div>
+                                <label for="billing-state">State/Province</label>
+                                <input type="text" id="billing-state" name="billing_state">
+                                 <div class="error-message"></div>
+                            </div>
+                            <div>
+                                <label for="billing-zip">ZIP/Postal Code</label>
+                                <input type="text" id="billing-zip" name="billing_zip" pattern="\d{5}(-\d{4})?">
+                                 <div class="error-message"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-country">Country</label>
+                            <select id="billing-country" name="billing_country">
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                            </select>
+                             <div class="error-message"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Placeholder for Shipping Method -->
+                <section class="checkout-section">
+                    <h2>Shipping Method</h2>
+                    <div class="form-group">
+                        <label><input type="radio" name="shipping_method" value="standard" checked> Standard Shipping ($5.00)</label>
+                    </div>
+                     <div class="form-group">
+                        <label><input type="radio" name="shipping_method" value="express"> Express Shipping ($15.00)</label>
+                    </div>
+                </section>
+
+                <!-- Placeholder for Payment Information -->
+                 <section class="checkout-section">
+                    <h2>Payment</h2>
+                    <p><em>Payment gateway integration (e.g., Stripe, PayPal) would go here.</em></p>
+                    <!-- Example: Placeholder for Stripe Elements -->
+                    <!-- <div id="card-element"></div> -->
+                    <!-- <div id="card-errors" role="alert"></div> -->
+                </section>
+
+                <div class="checkout-actions">
+                    <button type="submit" class="btn btn-primary btn-place-order">Place Order</button>
+                </div>
+
+            </form>
+        </main>
+
+        <!-- Optional: Sidebar for Order Summary -->
+        <aside class="sidebar checkout-summary">
+            <h2>Order Summary</h2>
+            <div id="checkout-order-summary">
+                <!-- Summary items will be loaded by JS -->
+                <p>Loading summary...</p>
+            </div>
+            <div class="summary-totals">
+                <p>Subtotal: <span id="summary-subtotal">$0.00</span></p>
+                <p>Shipping: <span id="summary-shipping">$0.00</span></p>
+                <p><strong>Total: <span id="summary-total">$0.00</span></strong></p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Load main UI script (for hamburger menu) -->
+    <script type="module" src="js/main.js"></script>
+    <!-- Link to the checkout JavaScript file -->
+    <!-- Added type="module" to enable import statements -->
+    <script type="module" src="js/checkout.js"></script>
+    <!-- Optional: Add a small script to update the year -->
+    <script>
+        // Ensure the element exists before trying to set its text content
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+        // updateCartCount() is called within checkout.js now
+    </script>
+</body>
+</html>
+

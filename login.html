@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - My Awesome Store</title> <!-- Updated Title -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <div class="logo"><a href="index.html">MyStore</a></div>
+            <!-- Mobile Menu Button and Items (same as other pages) -->
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-items-wrapper" id="mobile-menu">
+                <div class="search-bar">
+                    <input type="search" id="search-input" name="q" placeholder="Search products...">
+                    <button type="submit" class="btn search-btn" id="search-button">Search</button>
+                </div>
+                <!-- Update user actions block -->
+                <div class="user-actions">
+                     <a href="account.html" class="nav-link">Account</a> <!-- Linked to account.html -->
+                    <a href="cart.html" class="nav-link">
+                        Cart <span id="cart-item-count">0</span>
+                    </a>
+                </div>
+                <!-- End updated user actions block -->
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <main class="content-area">
+            <h1>Sign In</h1> <!-- Updated H1 -->
+            <!-- Added novalidate -->
+            <form id="login-form" novalidate>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message"></div> <!-- Added Error Placeholder -->
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="error-message"></div> <!-- Added Error Placeholder -->
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button> <!-- Updated Button Text -->
+                <p>Don't have an account? <a href="register.html">Sign Up here</a></p> <!-- Updated Link Text -->
+            </form>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Load main UI script (for hamburger menu) -->
+    <script type="module" src="js/main.js"></script>
+    <!-- Load the auth script (contains validation for login/register) -->
+    <script type="module" src="js/auth.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
+

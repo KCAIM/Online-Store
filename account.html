@@ -1,0 +1,252 @@
+<!-- c:\Users\USER\Online Store\account.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - My Awesome Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Add specific styles for account page elements -->
+    <style>
+        /* (Keep the styles from the previous response for .order-section, .order-item, etc.) */
+        .order-section { margin-bottom: 30px; padding: 15px; border: 1px solid var(--border-color); border-radius: var(--curve-radius); background-color: #f9f9f9; }
+        .order-section h3 { margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; color: var(--primary-color); }
+        .order-item { border-bottom: 1px dashed var(--border-color); padding: 10px 0; margin-bottom: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 5px 15px; align-items: center; }
+        .order-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .order-item p { margin-bottom: 0; }
+        .order-item .order-actions { justify-self: end; display: flex; gap: 10px; flex-wrap: wrap;} /* Container for buttons */
+        .profile-settings-form .form-group { margin-bottom: 15px; }
+        #order-history-container .loading-message,
+        #order-history-container .error-message,
+        #order-history-container .no-orders-message { text-align: center; padding: 20px; font-style: italic; color: #555; }
+        .status-message { font-weight: bold; margin-top: 10px; display: block;} /* Ensure status message is block */
+        .status-message.success { color: green; }
+        .status-message.error { color: red; }
+        .btn-small { /* Add a smaller button style if needed */
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+        /* Style for invalid form inputs */
+        .form-group input.invalid { border-color: #B12704; box-shadow: 0 0 0 2px rgba(177, 39, 4, 0.2); }
+        .error-message { color: #B12704; font-size: 0.85rem; margin-top: 4px; min-height: 1.2em; }
+
+        /* --- ADDED FROM PREVIOUS STEP --- */
+        .order-history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .order-history-section h2 {
+            margin-bottom: 20px;
+        }
+
+        #order-history-container .loading-message,
+        #order-history-container .no-orders-message,
+        #order-history-container .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .order-card {
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--curve-radius);
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .order-header span {
+            white-space: nowrap;
+        }
+
+        .order-header .order-status {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: #e0e0e0; /* Default status background */
+            color: #333;
+        }
+        /* Add specific status colors if desired */
+        .order-header .order-status.status-pending { background-color: #f0c14b; color: #111; }
+        .order-header .order-status.status-shipped { background-color: #007185; color: var(--white); }
+        .order-header .order-status.status-delivered { background-color: #5cb85c; color: var(--white); }
+        .order-header .order-status.status-cancelled { background-color: #d9534f; color: var(--white); }
+        /* Added rule for returned status */
+        .order-header .order-status.status-returned { background-color: #777; color: var(--white); }
+
+
+        .order-items-list {
+            margin-bottom: 15px;
+        }
+
+        .order-item { /* Adjusted existing order-item for new structure */
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            /* Reset grid properties if previously used */
+            grid-template-columns: none;
+        }
+        .order-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .order-item-image img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .order-item-details {
+            flex-grow: 1;
+            font-size: 0.9rem;
+        }
+        .order-item-details p {
+            margin: 2px 0;
+            color: #555;
+        }
+        .order-item-details .item-name {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .order-actions { /* Container for potential future actions like 'Buy Again' */
+            margin-top: 10px;
+            text-align: right;
+            /* Added styles for buttons inside */
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        /* Added rule for btn-small */
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+        /* --- END ADDED --- */
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <!-- (Keep your existing consistent header structure) -->
+        <nav class="main-nav">
+            <div class="logo"><a href="index.html">MyStore</a></div>
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+            <div class="nav-items-wrapper" id="mobile-menu">
+                <div class="search-bar">
+                    <input type="search" id="search-input" name="q" placeholder="Search products..."><button type="submit" class="btn search-btn" id="search-button">Search</button>
+                </div>
+                <div class="user-actions">
+                    <div id="logged-out-links"><a href="login.html" class="nav-link">Sign In</a><a href="register.html" class="nav-link">Sign Up</a></div>
+                    <div id="logged-in-links" class="hidden"><a href="account.html" id="account-link" class="nav-link">Account</a><button id="logout-button" class="nav-link btn-link-style">Log Out</button></div>
+                    <a href="cart.html" class="nav-link">Cart <span id="cart-item-count">0</span></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <main class="content-area">
+            <h1>My Account</h1>
+            <p id="welcome-message">Welcome!</p>
+
+            <!-- Order History Section -->
+            <section class="order-history-section">
+                <h2>Your Order History</h2>
+                <div id="order-history-container">
+                    <p class="loading-message">Loading your orders...</p> <!-- Added class for consistency -->
+                    <!-- Orders will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Profile Settings Section -->
+            <section>
+                <h2>Profile Settings</h2>
+                <!-- Updated form ID to match js/account.js -->
+                <form id="profile-form" class="profile-settings-form" novalidate>
+                    <!-- Added message/error paragraphs -->
+                    <p id="profile-message" class="status-message success"></p>
+                    <p id="profile-error" class="status-message error"></p>
+
+                    <div class="form-group">
+                        <!-- Updated input ID to match js/account.js -->
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <!-- Updated input ID to match js/account.js -->
+                        <label for="email">Email</label>
+                        <!-- Email should NOT be readonly if you allow updating it via the PUT request -->
+                        <input type="email" id="email" name="email" required>
+                         <div class="error-message"></div>
+                    </div>
+                    <!-- Removed password fields as they are not handled by the current account.js updateProfile -->
+                    <!--
+                    <div class="form-group">
+                        <label for="profile-password">New Password (leave blank to keep current)</label>
+                        <input type="password" id="profile-password" name="password" minlength="8">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-confirm-password">Confirm New Password</label>
+                        <input type="password" id="profile-confirm-password" name="confirm_password">
+                        <div class="error-message"></div>
+                    </div>
+                    -->
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <!-- Removed the old status div, using #profile-message and #profile-error now -->
+                    <!-- <div id="profile-update-status" class="status-message"></div> -->
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Load main UI script (handles header UI, logout) -->
+    <script type="module" src="js/main.js"></script>
+
+    <!-- *** REMOVED the large inline script block *** -->
+
+    <!-- *** ADDED link to the external account.js script *** -->
+    <script type="module" src="js/account.js"></script>
+
+    <!-- Keep the small script for the year -->
+    <script>
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title will be set dynamically by JS -->
+    <title>Product Details - My Awesome Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Removed inline <style> block -->
+</head>
+<body>
+
+    <header class="site-header">
+        <!-- Updated navigation structure for hamburger menu -->
+        <nav class="main-nav">
+            <!-- Link for the logo, removed inline style -->
+            <div class="logo"><a href="index.html">MyStore</a></div>
+
+            <!-- Hamburger Button (Initially hidden on desktop) -->
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Wrapper for items to be hidden/shown in mobile menu -->
+            <div class="nav-items-wrapper" id="mobile-menu">
+                <div class="search-bar">
+                    <!-- Added id and name to input, id to button -->
+                    <input type="search" id="search-input" name="q" placeholder="Search products...">
+                    <button type="submit" class="btn search-btn" id="search-button">Search</button>
+                </div>
+                <!-- Update user actions block -->
+                <div class="user-actions">
+                     <a href="account.html" class="nav-link">Account</a> <!-- Linked to account.html -->
+                    <a href="cart.html" class="nav-link">
+                        Cart <span id="cart-item-count">0</span>
+                    </a>
+                </div>
+                <!-- End updated user actions block -->
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <main class="content-area">
+            <!-- Breadcrumbs (Optional) - Removed inline style -->
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> &gt; <span id="product-category">Category</span> &gt; <span id="product-breadcrumb-name">Product Name</span>
+            </div>
+
+            <div class="product-detail-container" id="product-detail">
+                <!-- Product details will be injected here by JavaScript -->
+                <div class="product-detail-image">
+                    <img src="images/product-placeholder.png" alt="Product Image" id="product-image">
+                </div>
+                <div class="product-detail-info">
+                    <h1 id="product-name">Product Name Loading...</h1>
+                    <div class="product-detail-price" id="product-price">$0.00</div>
+                    <div class="product-detail-description" id="product-description">
+                        <p>Loading description...</p>
+                    </div>
+                    <div class="product-detail-specs" id="product-specs">
+                        <h3>Specifications:</h3>
+                        <ul>
+                            <li>Loading specs...</li>
+                        </ul>
+                    </div>
+                    <div class="product-add-to-cart">
+                        <!-- Button needs product ID set by JS -->
+                        <button class="btn btn-primary js-add-to-cart-btn" id="detail-add-to-cart-btn" disabled>Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products Section (Optional Future Step) -->
+            <!-- <section class="related-products"> ... </section> -->
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Load main UI script (for hamburger menu) -->
+    <script type="module" src="js/main.js"></script>
+    <!-- IMPORTANT: Load product data first -->
+    <!-- Added type="module" -->
+    <script type="module" src="js/products.js"></script>
+    <!-- Load the product detail page script -->
+    <!-- Added type="module" -->
+    <script type="module" src="js/product.js"></script>
+    <!-- Optional: Add a small script to update the year -->
+    <script>
+        // Ensure the element exists before trying to set its text content
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html>
+

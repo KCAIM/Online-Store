@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav class="main-nav">
+            <div class="logo"><a href="index.html">MyStore</a></div>
+
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-items-wrapper" id="mobile-menu">
+                <div class="search-bar">
+                    <input type="search" id="search-input" name="q" placeholder="Search products...">
+                    <button type="submit" class="btn search-btn" id="search-button">Search</button>
+                </div>
+                <div class="user-actions">
+                    <div id="logged-out-links">
+                        <a href="login.html" class="nav-link">Sign In</a>
+                        <a href="register.html" class="nav-link">Sign Up</a>
+                    </div>
+                    <div id="logged-in-links" class="hidden">
+                        <a href="account.html" id="account-link" class="nav-link">Account</a>
+                        <button id="logout-button" class="nav-link btn-link-style">Log Out</button>
+                    </div>
+                    <a href="cart.html" class="nav-link">
+                        Cart <span id="cart-item-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <main class="content-area">
+            <!-- Removed the guest-checkout-section -->
+            <!--
+            <section id="guest-checkout-section" class="guest-checkout-section">
+                <h2>Welcome!</h2>
+                <p>Sign in for a personalized experience or proceed as a guest.</p>
+                <div class="guest-options">
+                    <a href="login.html" class="btn btn-primary">Sign In</a>
+                    <button id="guest-checkout-button" class="btn btn-secondary">Proceed as Guest</button>
+                </div>
+            </section>
+            -->
+
+            <h1>Featured Products</h1>
+
+            <section class="product-grid" id="product-list">
+                <h2>Our Products</h2>
+                <p>Loading products...</p>
+            </section>
+
+        </main>
+
+        <aside class="sidebar">
+            <h3>Categories</h3>
+            <ul class="category-list">
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Home & Kitchen</a></li>
+                <li><a href="#">Fashion</a></li>
+            </ul>
+            <div class="ad-placeholder">
+                <h4>Special Offer!</h4>
+                <p>Save 20% today.</p>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+    <!-- Removed the script block that handled the old guest-checkout-button -->
+    <script>
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+

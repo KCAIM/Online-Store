@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - My Awesome Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Optional: Add some specific styling for the thank you message */
+        .thank-you-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .thank-you-message h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .thank-you-message p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <!-- Consistent Header with Hamburger Menu -->
+        <nav class="main-nav">
+            <div class="logo"><a href="index.html">MyStore</a></div>
+            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-items-wrapper" id="mobile-menu">
+                <!-- No search bar needed here -->
+                <div class="user-actions">
+                    <a href="#" class="nav-link">Account</a>
+                    <a href="cart.html" class="nav-link">
+                        Cart <span id="cart-item-count">0</span> <!-- Cart count might be 0 here -->
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <main class="content-area">
+            <div class="thank-you-message">
+                <h1>Thank You For Your Order!</h1>
+                <p>Your order has been placed successfully. We appreciate your business!</p>
+                <p>You will receive an email confirmation shortly.</p>
+                <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        </main>
+        <!-- No sidebar needed on thank you page -->
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> My Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Load main UI script (for hamburger menu) -->
+    <script type="module" src="js/main.js"></script>
+    <!-- Load cart utils to update header count (might show 0 after clearCart) -->
+    <script type="module" src="js/cart-utils.js"></script>
+    <!-- Script to update year and potentially cart count -->
+    <script>
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+        // Update cart count on load (will likely be 0 if redirected after clearCart)
+        // Need to import and call updateCartCount if cart-utils isn't loaded directly
+        // Or ensure cart-utils runs its updateCartCount on load if needed
+        // For simplicity, we can add a direct call here if cart-utils doesn't auto-run
+        // import { updateCartCount } from './js/cart-utils.js'; // This won't work in a non-module script
+        // Instead, ensure cart-utils updates count or add a separate module script:
+    </script>
+    <script type="module">
+        import { updateCartCount } from './js/cart-utils.js';
+        updateCartCount(); // Explicitly update count on this page load
+    </script>
+</body>
+</html>
