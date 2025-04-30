@@ -14,7 +14,7 @@ import {
 } from './cart-utils.js';
 
 // --- ADDED API_BASE_URL ---
-const API_BASE_URL = 'http://127.0.0.1:3000/api';
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api';
 // --- END ADD ---
 
 // --- DOM Elements ---

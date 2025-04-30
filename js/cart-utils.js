@@ -2,7 +2,7 @@
 
 const CART_STORAGE_KEY = 'shoppingCart'; // Keep for guest cart fallback
 //const API_BASE_URL = 'http://localhost:3000/api'; // Your backend API base URL
-const API_BASE_URL = 'http://127.0.0.1:3000/api'; // Your backend API base URL
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api'; // Your backend API base URL
 
 // --- Auth Helper Functions ---
 

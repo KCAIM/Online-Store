@@ -11,7 +11,7 @@ import {
 // --- END IMPORTS ---
 
 // Define the base URL for your API
-const API_BASE_URL = 'http://localhost:3000/api'; // Or your actual backend URL
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api'; // Or your actual backend URL
 
 // --- API Interaction Functions ---
 
