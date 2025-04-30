@@ -1,5 +1,5 @@
 // js/auth.js
-const API_BASE_URL = 'https://online-store-i8da.onrender.com/api';
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api'; // Correct URL
 
 // --- Helper functions for showing/clearing errors ---
 function showError(field, message) {
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!passwordValue) {
                 showError(passwordField, 'Password is required.');
                 isValid = false;
-            } else if (passwordValue.length < 6) {
+            } else if (passwordValue.length < 6) { // Use consistent length check (e.g., 6 or 8)
                 showError(passwordField, 'Password must be at least 6 characters long.');
                 isValid = false;
             }
@@ -99,11 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const password = passwordValue;
 
                 try {
-                    const response = await fetch(`${API_BASE_URL}/login`, {
+                    // --- CORRECTED REGISTRATION FETCH URL ---
+                    const response = await fetch(`${API_BASE_URL}/register`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, email, password })
                     });
+                    // --- END CORRECTION ---
 
                     const data = await response.json();
 
@@ -177,11 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const password = passwordValue;
 
                 try {
-                    const response = await fetch('http://localhost:3000/api/login', {
+                    // --- CORRECTED LOGIN FETCH URL ---
+                    const response = await fetch(`${API_BASE_URL}/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email, password })
                     });
+                    // --- END CORRECTION ---
 
                     const data = await response.json();
 
@@ -221,4 +225,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 
