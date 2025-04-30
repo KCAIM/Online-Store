@@ -1,7 +1,7 @@
 // admin/admin.js
 import { getAuthToken, createAuthHeaders } from '../js/cart-utils.js'; // Adjust path
 
-const API_BASE_URL = 'http://127.0.0.1:3000/api'; // Use your actual API URL
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api'; // Use your actual API URL
 
 // --- DOM Elements ---
 // Corrected IDs to match admin.html
