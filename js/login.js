@@ -1,4 +1,6 @@
 // js/login.js
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api';
+
 document.addEventListener('DOMContentLoaded', () => { // Wrap in DOMContentLoaded
     const loginForm = document.getElementById('login-form');
     const emailInput = document.getElementById('email');
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => { // Wrap in DOMContentLoade
         submitButton.textContent = 'Logging In...'; // Provide visual feedback
 
         try {
-            const response = await fetch('http://localhost:3000/api/login', { // Your backend URL
+            const response = await fetch(`${API_BASE_URL}/login`, { // Your backend URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

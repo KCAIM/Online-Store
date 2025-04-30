@@ -1,6 +1,8 @@
 // js/main.js
 import { addItemToCart, updateCartCount, clearCart } from './cart-utils.js'; // Added clearCart import
 
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api';
+
 let allProducts = []; // Variable to store fetched products
 
 // --- Authentication UI Elements ---
@@ -56,7 +58,7 @@ async function fetchAndDisplayProducts() {
     // --- End Fix ---
 
     try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch(`${API_BASE_URL}/products`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

@@ -1,4 +1,5 @@
 // js/auth.js
+const API_BASE_URL = 'https://online-store-i8da.onrender.com/api';
 
 // --- Helper functions for showing/clearing errors ---
 function showError(field, message) {
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const password = passwordValue;
 
                 try {
-                    const response = await fetch('http://localhost:3000/api/register', {
+                    const response = await fetch(`${API_BASE_URL}/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, email, password })
